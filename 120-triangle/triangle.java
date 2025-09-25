@@ -2,16 +2,18 @@ import java.util.*;
 
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-    
-        for (int i = triangle.size() - 2; i >= 0; i--) {
-            for (int j = 0; j < triangle.get(i).size(); j++) {
-                int down = triangle.get(i + 1).get(j);
-                int downRight = triangle.get(i + 1).get(j + 1);
-                int curr = triangle.get(i).get(j);
-                
-                triangle.get(i).set(j, curr + Math.min(down, downRight));
+        int n = triangle.size();
+        int[] dp = new int[n];
+        for (int i = 0; i < n; i++) {
+            dp[i] = triangle.get(n - 1).get(i);
+        }
+       
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                dp[j] = triangle.get(i).get(j) + Math.min(dp[j], dp[j + 1]);
             }
         }
-        return triangle.get(0).get(0);
+        
+        return dp[0];
     }
 }
